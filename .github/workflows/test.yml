@@ -33,3 +33,7 @@ jobs:
 
       - name: Check output
         run: echo ${{ steps.vars.outputs.short_ref }}
+        
+      - name: condition 1
+        if: "contains(steps.vars.outputs.short_ref, 'main')"
+        run: We found it!
