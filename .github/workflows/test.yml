@@ -36,4 +36,8 @@ jobs:
         
       - name: condition 1
         if: "contains(steps.vars.outputs.short_ref, 'main')"
-        run: We found it!
+        run: echo We found main!
+        
+      - name: condition 2
+        if: "contains(steps.vars.outputs.short_ref, 'test')"
+        run: echo We found test!        
