@@ -48,4 +48,4 @@ jobs:
         id: extract_branch
       - name: Create Pull Request
         id: cpr
-        run: echo "::set-output name=pr_url::$(gh pr create --title 'Sync main with QA/UAT fixes' --body 'Sync fixes' --base main --head ${{ steps.extract_branch.outputs.branch }} )"
+        run: echo "::set-output name=pr_url::$(gh pr create --title 'Sync main with QA/UAT fixes' --body 'Sync fixes' --base main --head deploy/test )"
