@@ -1,6 +1,8 @@
 # This is a basic workflow to help you get started with Actions
 
 name: CI
+env:
+  GITHUB_TOKEN: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
 
 # Controls when the action will run. 
 on:
