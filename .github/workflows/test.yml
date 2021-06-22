@@ -49,6 +49,3 @@ jobs:
       - name: Create Pull Request
         id: cpr
         run: echo "::set-output name=pr_url::$(gh pr create --title 'Sync main with QA/UAT fixes' --body 'Sync fixes' --base main --head ${{ steps.extract_branch.outputs.branch }} )"
-      - name: Auto Pull Request
-        if: ${{ steps.pr_required.outputs.pr_required == 1}}
-        run: gh pr merge --auto --merge ${{ steps.cpr.outputs.pr_url }}
