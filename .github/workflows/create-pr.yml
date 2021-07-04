@@ -34,7 +34,10 @@ jobs:
           branch=${raw##*/}
           echo "BRANCH=$branch"
       - run: echo ${{ env.BRANCH }}
-      - name: Current branch name
+      - name: Current branch name1
+        if: github.event_name == 'push'
+          echo "github.event_name == push"
+      - name: Current branch name2
         if: github.event_name == 'push'
         run: |
           echo "${{ steps.branch-name.outputs.current_branch }}"
