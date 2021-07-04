@@ -25,19 +25,24 @@ jobs:
         if: ${{ steps.pr_required.outputs.pr_required == 1}}
         shell: bash
         run: echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
+        id: extract_branch
       - name: Extract branch name OUTPUT
         run: echo ${{ steps.extract_branch.outputs.branch }}
-      - name: Get Branch
-        id: get_branch
-        run: |
-          raw=$(git branch -r --contains ${{ github.ref }})
-          branch=${raw##*/}
-          echo "BRANCH=$branch"
-      - run: echo ${{ env.BRANCH }}
-      - name: Current branch name1
-        if: github.event_name == 'push'
-        run: echo ${{ github.ref }}
-      - name: Current branch name2
-        if: github.event_name == 'push'
-        run: |
-          echo "${{ steps.branch-name.outputs.current_branch }}"
+      - name: Create Pull Request
+        if: ${{ steps.pr_required.outputs.pr_required == 1}}
+        id: cpr
+        run: echo "::set-output name=pr_url::$(gh pr create --title 'Sync main with QA/UAT fixes' --body 'Sync fixes' --base master --head ${{ steps.extract_branch.outputs.branch }} )"     
+      # - name: Get Branch
+      #   id: get_branch
+      #   run: |
+      #     raw=$(git branch -r --contains ${{ github.ref }})
+      #     branch=${raw##*/}
+      #     echo "BRANCH=$branch"
+      # - run: echo ${{ env.BRANCH }}
+      # - name: Current branch name1
+      #   if: github.event_name == 'push'
+      #   run: echo ${{ github.ref }}
+      # - name: Current branch name2
+      #   if: github.event_name == 'push'
+      #   run: |
+      #     echo "${{ steps.branch-name.outputs.current_branch }}"
