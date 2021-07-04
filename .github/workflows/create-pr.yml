@@ -27,8 +27,9 @@ jobs:
       - name: Extract branch name OUTPUT
         run: echo ${{ steps.extract_branch.outputs.branch }}
       - name: Get Branch
+        id: get_branch
         run: |
           raw=$(git branch -r --contains ${{ github.ref }})
-          branch=${raw/origin\/}
-          echo ::set-env name=BRANCH::$branch
+          branch=${raw##*/}
+          echo "BRANCH=$branch"
       - run: echo ${{ env.BRANCH }}
