@@ -1,4 +1,4 @@
-name: Sync main with QA/UAT fixes
+name: Sync master
 on:
   push:
     branches:
@@ -18,3 +18,11 @@ jobs:
       - name: Is PR required?
         id: pr_required
         run: echo "::set-output name=pr_required::$(git diff origin/master --quiet || echo 1)"
+      - name: Is PR required OUTPUT
+        run: echo  ${{ steps.pr_required.outputs.pr_required }}
+      - name: Extract branch name
+        if: ${{ steps.pr_required.outputs.pr_required == 1}}
+        shell: bash
+        run: echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
+      - name: Extract branch name OUTPUT
+        run: echo ${{ steps.extract_branch.outputs.branch }}
