@@ -33,3 +33,13 @@ jobs:
           branch=${raw##*/}
           echo "BRANCH=$branch"
       - run: echo ${{ env.BRANCH }}
+
+      # extract branch name
+      - name: Extract branch name
+        if: github.event_name != 'pull_request'
+        shell: bash
+        run: echo "::set-env name=BRANCH_NAME::$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+      # print branch name
+      - name: Get branch name
+        run: echo 'The branch name is' $BRANCH_NAME
