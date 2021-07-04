@@ -13,6 +13,7 @@ jobs:
         with:
           fetch-depth: 0
       - uses: tj-actions/branch-names@v4.5
+      - uses: rlespinasse/github-slug-action@v3.x
       - name: Test action runs
         id: action-test
         run: echo "Action create_pr is started"
@@ -32,6 +33,22 @@ jobs:
         if: ${{ steps.pr_required.outputs.pr_required == 1}}
         id: cpr
         run: echo "::set-output name=pr_url::$(gh pr create --title 'Sync main with QA/UAT fixes' --body 'Sync fixes' --base master --head ${{ steps.extract_branch.outputs.branch }} )"     
+      - name: Print slug/short variables
+        run: |
+          echo "Slug variables"
+          echo " - ${{ env.GITHUB_REF_SLUG }}"    
+          echo " - ${{ env.GITHUB_HEAD_REF_SLUG }}"
+          echo " - ${{ env.GITHUB_BASE_REF_SLUG }}"
+          echo " - ${{ env.GITHUB_REPOSITORY_SLUG }}"
+          # output e.g. : master feat-new-feature v1.0.0 product-1.0.0-rc.2 new-awesome-product
+          echo "Slug URL variables"
+          echo " - ${{ env.GITHUB_REF_SLUG_URL }}"
+          echo " - ${{ env.GITHUB_HEAD_REF_SLUG_URL }}"
+          echo " - ${{ env.GITHUB_BASE_REF_SLUG_URL }}"
+          echo " - ${{ env.GITHUB_REPOSITORY_SLUG_URL }}"
+
+      
+      
       # - name: Get Branch
       #   id: get_branch
       #   run: |
