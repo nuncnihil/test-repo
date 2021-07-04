@@ -1,4 +1,4 @@
-name: Sync master
+name: Sync masterII
 on:
   push:
     branches:
