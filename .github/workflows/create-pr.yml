@@ -29,6 +29,11 @@ jobs:
         id: extract_branch
       - name: Extract branch name OUTPUT
         run: echo ${{ steps.extract_branch.outputs.branch }}
+
+      - name: View PR
+        id: cprl
+        run: echo "::set-output name=pr_url::$(gh pr view)"     
+        
       - name: Create Pull Request
         if: ${{ steps.pr_required.outputs.pr_required == 1}}
         id: cpr
