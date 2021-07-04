@@ -36,7 +36,7 @@ jobs:
       - run: echo ${{ env.BRANCH }}
       - name: Current branch name1
         if: github.event_name == 'push'
-          echo "github.event_name == push"
+        run: echo "github.event_name == push"
       - name: Current branch name2
         if: github.event_name == 'push'
         run: |
