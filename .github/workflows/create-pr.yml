@@ -1,0 +1,20 @@
+name: Sync main with QA/UAT fixes
+on:
+  push:
+    branches:
+      - uat
+env:
+  GITHUB_TOKEN: ${{secrets.REPO_SECRET}}
+jobs:
+  sync-main:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Test action runs
+        id: action-test
+        run: echo "Action create_pr is started"
+      - name: Is PR required?
+        id: pr_required
+        run: echo "::set-output name=pr_required::$(git diff origin/master --quiet || echo 1)"
