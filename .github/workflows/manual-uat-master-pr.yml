@@ -29,7 +29,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: GITHUB_WORKSPACE
-      - echo: ${{GITHUB_WORKSPACE}}
+        run: echo ${{GITHUB_WORKSPACE}}
       - name: Extract branch name
         run: |
           chmod +x ./scripts/generate-pr.sh
