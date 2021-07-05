@@ -27,6 +27,7 @@ repo_prefix='nuncnihil'
 repos=(
   # you can add more repos here!
   'test-repo'
+  'test-repo'
 )
 
 while [ $# -gt 0 ] ; do
@@ -64,8 +65,9 @@ for repo in ${repos[@]}; do
   else
     echo -e "\tRunning: "
     echo -e "\t\t ${command}"
-    c=$command
-    echo -e ${c}
-    # eval $command
+    # c=$command
+    # echo -e ${c}
+    output = eval $command
+    echo -e ${output}
   fi
 done
