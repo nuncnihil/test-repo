@@ -69,5 +69,7 @@ for repo in ${repos[@]}; do
     # echo -e ${c}
     eval $command
     cat result
+    cat result
+    cat result
   fi
 done
