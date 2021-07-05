@@ -32,7 +32,7 @@ jobs:
         run: echo $GITHUB_WORKSPACE
       - name: Extract branch name
         run: |
-          chmod +x ./scripts/generate-pr.sh
-          ./scripts/generate-pr.sh --title \"test script\" --body \"test body\" --head uat --base master --dry-run
+          chmod +x .${{ $GITHUB_WORKSPACE }}/scripts/generate-pr.sh
+          .${{ $GITHUB_WORKSPACE }}/scripts/generate-pr.sh --title \"test script\" --body \"test body\" --head uat --base master --dry-run
         shell: bash
         
