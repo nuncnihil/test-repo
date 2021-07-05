@@ -18,6 +18,7 @@ on:
         
 env:
   GITHUB_TOKEN: ${{secrets.REPO_SECRET}}
+  WORKSPACE: ${{GITHUB_WORKSPACE}}
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "greet"
@@ -29,7 +30,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: GITHUB_WORKSPACE
-        run: echo ${{GITHUB_WORKSPACE}}
+        run: echo ${{WORKSPACE}}
       - name: Extract branch name
         run: |
           chmod +x ./scripts/generate-pr.sh
