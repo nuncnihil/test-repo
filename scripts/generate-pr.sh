@@ -64,7 +64,7 @@ for repo in ${repos[@]}; do
   else
     echo -e "\tRunning: "
     echo -e "\t\t ${command}"
-    c=${!command}
+    c=$command
     echo -e ${c}
     # eval $command
   fi
