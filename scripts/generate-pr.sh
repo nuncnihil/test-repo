@@ -68,6 +68,7 @@ for repo in ${repos[@]}; do
     # c=$command
     # echo -e ${c}
     output = eval $command
-    echo -e ${output}
+    echo $?
+
   fi
 done
