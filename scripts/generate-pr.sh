@@ -68,8 +68,11 @@ for repo in ${repos[@]}; do
     # c=$command
     # echo -e ${c}
     eval $command
+    echo "LIAM"
     cat result
+    echo "LIAM"
     cat result
+    echo "LIAM"
     cat result
   fi
 done
