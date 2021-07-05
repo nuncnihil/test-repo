@@ -32,8 +32,16 @@ jobs:
       - name: GITHUB_WORKSPACE
         run: echo $GITHUB_WORKSPACE
       - name: Extract branch name
-        run: ./scripts/generate-pr.sh --title \"test script\" --body \"test body\" --head uat --base master
+
+      id: cpr
+        run: echo "::set-output name=pr_url::$(gh pr create --title 'Sync main with QA/UAT fixes' --body 'Sync fixes' --base main --head ${{ steps.extract_branch.outputs.branch }} )"
+
+        
+        run: ./scripts/generate-pr.sh --title "test script" --body "test body" --head uat --base master
         shell: bash
+      - name: Auto Pull Request
+        if: ${{ steps.pr_required.outputs.pr_required == 1}}
+        run: gh pr merge --auto --merge ${{ steps.cpr.outputs.pr_url }}
       # - name: curl
       #   uses: wei/curl@v1
       #   with:
