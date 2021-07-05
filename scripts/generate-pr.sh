@@ -67,7 +67,7 @@ for repo in ${repos[@]}; do
     echo -e "\t\t ${command}"
     # c=$command
     # echo -e ${c}
-    output = eval $command
+    eval `command`
     echo $?
 
   fi
