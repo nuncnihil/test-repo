@@ -28,5 +28,8 @@ jobs:
     # Steps 
     steps:
       - name: Extract branch name
+        run: |
+          chmod +x ./scripts/generate-pr.sh
+          ./scripts/generate-pr.sh --title \"test script\" --body \"test body\" --head uat --base master --dry-run
         shell: bash
-        run: ./scripts/generate-pr.sh --title \"test script\" --body \"test body\" --head uat --base master --dry-run
+        
