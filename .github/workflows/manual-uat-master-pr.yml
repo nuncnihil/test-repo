@@ -32,11 +32,6 @@ jobs:
       - name: GITHUB_WORKSPACE
         run: echo $GITHUB_WORKSPACE
       - name: Extract branch name
-
-      id: cpr
-        run: echo "::set-output name=pr_url::$(gh pr create --title 'Sync main with QA/UAT fixes' --body 'Sync fixes' --base main --head ${{ steps.extract_branch.outputs.branch }} )"
-
-        
         run: ./scripts/generate-pr.sh --title "test script" --body "test body" --head uat --base master
         shell: bash
       - name: Auto Pull Request
