@@ -74,5 +74,8 @@ for repo in ${repos[@]}; do
     cat result
     echo "LIAM"
     cat result
+    OUTPUT=$(eval "$command")
+    EXITCODE=$?
+    echo "LIAM ${OUTPUT} and ${EXITCODE}"
   fi
 done
