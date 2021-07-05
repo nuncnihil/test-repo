@@ -28,6 +28,5 @@ jobs:
     # Steps 
     steps:
       - name: Extract branch name
-        if: ${{ steps.pr_required.outputs.pr_required == 1}}
         shell: bash
-        run: echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
+        run: ./scripts/generate-pr.sh --title \"test script\" --body \"test body\" --head uat --base master --dry-run
