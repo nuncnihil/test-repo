@@ -36,7 +36,7 @@ jobs:
           ./scripts/generate-pr.sh --title \"test script\" --body \"test body\" --head uat --base master --dry-run
         shell: bash
       - name: curl
-      uses: wei/curl@v1
-      with:
-        args: -X POST --data-urlencode "payload={\"text\": \"This is a github action integration test message .\", \"icon_emoji\": \":ghost:\"}" https://hooks.slack.com/services/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
+        uses: wei/curl@v1
+        with:
+          args: -X POST --data-urlencode "payload={\"text\": \"This is a github action integration test message .\", \"icon_emoji\": \":ghost:\"}" https://hooks.slack.com/services/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
         
