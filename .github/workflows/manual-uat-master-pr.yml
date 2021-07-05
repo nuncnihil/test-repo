@@ -27,6 +27,7 @@ jobs:
 
     # Steps 
     steps:
+      - uses: actions/checkout@v2
       - name: GITHUB_WORKSPACE
       - echo: ${{GITHUB_WORKSPACE}}
       - name: Extract branch name
