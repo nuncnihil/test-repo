@@ -67,8 +67,10 @@ for repo in ${repos[@]}; do
     echo -e "\t\t ${command}"
     # c=$command
     # echo -e ${c}
-    repo2 = eval $command
-    echo -e "${rep2}"
-
+    # eval $command
+    eval c=\$$command
+    echo -e "Hurra for1: ${c}"
+    newVariable=$(eval echo \$$var)
+    echo -e "Hurra for2: ${newVariable}"
   fi
 done
