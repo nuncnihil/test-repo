@@ -58,7 +58,7 @@ fi
 echo "Submitting Pull Requests from ${head} to ${base} for repos ..."
 for repo in ${repos[@]}; do
   echo -e "${repo}"
-  command="gh pr create --title \"${title}\" --body \"${body}\" --base ${base} --head ${head} --repo ${repo_prefix}/${repo} --reviewer ${reviewer} > result "
+  command="gh pr create --title \"${title}\" --body \"${body}\" --base ${base} --head ${head} --repo ${repo_prefix}/${repo} --reviewer ${reviewer}"
   if [[ $dry_run == "true" ]]; then
     echo -e "\tCommand to be run: "
     echo -e "\t\t ${command}"
@@ -67,7 +67,7 @@ for repo in ${repos[@]}; do
     echo -e "\t\t ${command}"
     # c=$command
     # echo -e ${c}
-    eval $command
+    eval $command > result
     echo "LIAM"
     cat result
     echo "LIAM"
