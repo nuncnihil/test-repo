@@ -59,7 +59,7 @@ echo "Submitting Pull Requests from ${head} to ${base} for repos ..."
 for repo in ${repos[@]}; do
   echo -e "${repo}"
   command="gh pr create --title \"${title}\" --body \"${body}\" --base ${base} --repo ${repo_prefix}/${repo} --reviewer ${reviewer}"
-  list="gh pr list --base ${base} --repo ${repo_prefix}/${repo} -w"
+  list="gh api -X GET search/issues -F per_page=100 --paginate -f q="repo:nuncnihil/test-repo is:open" --jq '.items[] | [.number, .html_url] | @tsv'"
   if [[ $dry_run == "true" ]]; then
     echo -e "\tCommand to be run: "
     echo -e "\t\t ${command}"
@@ -68,8 +68,8 @@ for repo in ${repos[@]}; do
     echo -e "\t\t ${command}"
     # c=$command
     # echo -e ${c}
+    # eval $command
     eval $command
-    eval $list
     # echo "LIAM"
     # cat result
     # echo "LIAM"
