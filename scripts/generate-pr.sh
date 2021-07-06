@@ -59,6 +59,7 @@ echo "Submitting Pull Requests from ${head} to ${base} for repos ..."
 for repo in ${repos[@]}; do
   echo -e "${repo}"
   command="gh pr create --title \"${title}\" --body \"${body}\" --base ${base} --head ${head} --repo ${repo_prefix}/${repo} --reviewer ${reviewer}"
+  list="gh pr list --base ${base} --head ${head} --repo ${repo_prefix}/${repo}"
   if [[ $dry_run == "true" ]]; then
     echo -e "\tCommand to be run: "
     echo -e "\t\t ${command}"
@@ -67,15 +68,16 @@ for repo in ${repos[@]}; do
     echo -e "\t\t ${command}"
     # c=$command
     # echo -e ${c}
-    eval $command > result
-    echo "LIAM"
-    cat result
-    echo "LIAM"
-    cat result
-    echo "LIAM"
-    cat result
-    OUTPUT=$(eval "$command")
-    EXITCODE=$?
-    echo "LIAM ${OUTPUT} and ${EXITCODE}"
+    eval $command
+    eval $list
+    # echo "LIAM"
+    # cat result
+    # echo "LIAM"
+    # cat result
+    # echo "LIAM"
+    # cat result
+    # OUTPUT=$(eval "$command")
+    # EXITCODE=$?
+    # echo "LIAM ${OUTPUT} and ${EXITCODE}"
   fi
 done
