@@ -28,7 +28,7 @@ repo_prefix='nuncnihil'
 repos=(
   # you can add more repos here!
   'test-repo'
-  # 'AdvancedReactRedux'
+  'AdvancedReactRedux'
 )
 
 while [ $# -gt 0 ] ; do
