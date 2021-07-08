@@ -111,7 +111,7 @@ done
 #          ]
 #       }
 #    ]
-# }" https://hooks.slack.com/services/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)
+# }" 
 
 # cmd=$(curl -X POST --data-urlencode "payload={ \"color\": \"warning\", \"text\": \"@here These are the generated PRs for APPROVAL ONLY to prepare for production deployment (deploy/test -> deploy/Prod)\n 
 # All owners please approve and merge the following:\n $liam.\", \"icon_emoji\": \":ghost:\"}" https://hooks.slack.com/services/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)
