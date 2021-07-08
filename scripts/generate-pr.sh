@@ -96,22 +96,22 @@ for repo in ${repos[@]}; do
 done
 
 
-cmd=$(curl -X POST --data-urlencode "payload={
-   "attachments":[
-      {
-         \"fallback\":\"@here\",
-         \"pretext\":\"@here\",
-         \"color\":\"#D00000\",
-         \"fields\":[
-            {
-               \"title\":\"[Attention Code Owners] These are the generated PRs needing your APPROVAL ONLY to prepare for production deployment - deploy/test -> deploy/Prod\",
-               \"value\":\"$liam\",
-               \"short\":false
-            }
-         ]
-      }
-   ]
-}" https://hooks.slack.com/services/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)
+# cmd=$(curl -X POST --data-urlencode "payload={
+#    "attachments":[
+#       {
+#          \"fallback\":\"@here\",
+#          \"pretext\":\"@here\",
+#          \"color\":\"#D00000\",
+#          \"fields\":[
+#             {
+#                \"title\":\"[Attention Code Owners] These are the generated PRs needing your APPROVAL ONLY to prepare for production deployment - deploy/test -> deploy/Prod\",
+#                \"value\":\"$liam\",
+#                \"short\":false
+#             }
+#          ]
+#       }
+#    ]
+# }" https://hooks.slack.com/services/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)
 
 # cmd=$(curl -X POST --data-urlencode "payload={ \"color\": \"warning\", \"text\": \"@here These are the generated PRs for APPROVAL ONLY to prepare for production deployment (deploy/test -> deploy/Prod)\n 
 # All owners please approve and merge the following:\n $liam.\", \"icon_emoji\": \":ghost:\"}" https://hooks.slack.com/services/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)
