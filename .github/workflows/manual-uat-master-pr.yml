@@ -1,44 +1,25 @@
 # This is a basic workflow that is manually triggered
 
-name: Manual workflow
+name: Prod release - Prepare PRs
 
-# Controls when the action will run. Workflow runs when manually triggered using the UI
-# or API.
 on:
   workflow_dispatch:
     # Inputs the workflow accepts.
-    inputs:
-      name:
-        # Friendly description to be shown in the UI instead of 'name'
-        description: 'Person to greet'
-        # Default value if no value is explicitly provided
-        default: 'World'
-        # Input has to be provided for the workflow to run
-        required: true
         
 env:
   GITHUB_TOKEN: ${{secrets.REPO_SECRET}}
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "greet"
-  greet:
+  prepareRelease:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
     # Steps 
     steps:
       - uses: actions/checkout@v2
-      # - uses: wei/curl@v1
       - name: GITHUB_WORKSPACE
         run: echo $GITHUB_WORKSPACE
       - name: Extract branch name
-        run: ./scripts/generate-pr.sh --title "test script" --body "test body" --head uat --base master
+        run: ./scripts/generate-pr.sh --title "test script" --body "test body" --head uat --base master --auto
         shell: bash
-      - name: Auto Pull Request
-        if: ${{ steps.pr_required.outputs.pr_required == 1}}
-        run: gh pr merge --auto --merge ${{ steps.cpr.outputs.pr_url }}
-      # - name: curl
-      #   uses: wei/curl@v1
-      #   with:
-      #     args: -X POST --data-urlencode "payload={\"text\": \"This is a github action integration test message .\", \"icon_emoji\": \":ghost:\"}" https://hooks.slack.com/services/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
-        
