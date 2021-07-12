@@ -21,7 +21,9 @@ jobs:
     # Steps 
     steps:
       - name: SECRET
-        run: echo "${SECRET}"
+        run: echo $SECRET
+      - name: SECRET2
+        run: echo ${{ secrets.LIAM }}
       - uses: actions/checkout@v2
       - name: GITHUB_WORKSPACE
         run: echo $GITHUB_WORKSPACE
