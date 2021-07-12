@@ -9,7 +9,6 @@ on:
 env:
   GITHUB_TOKEN: ${{ secrets.REPO_SECRET }}
   SLACK_TOKEN: ${{ secrets.SLACK }}
-  SECRET: ${{ secrets.LIAM }}
   
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -28,5 +27,7 @@ jobs:
       - name: GITHUB_WORKSPACE
         run: echo $GITHUB_WORKSPACE
       - name: Extract branch name
-        run: ./scripts/generate-pr.sh --slack "${SECRET}" --title "[release admin] generated PR needing APPROVAL ONLY to prepare for production deployment" --body "This is a generated PR needing APPROVAL ONLY to prepare for production deployment - deploy/test -> deploy/Prod" --head uat --base master --auto
         shell: bash
+        env:
+          SECRET: ${{ secrets.LIAM }}
+        run: ./scripts/generate-pr.sh --slack "$SECRET" --title "[release admin] generated PR needing APPROVAL ONLY to prepare for production deployment" --body "This is a generated PR needing APPROVAL ONLY to prepare for production deployment - deploy/test -> deploy/Prod" --head uat --base master --auto
