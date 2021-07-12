@@ -17,9 +17,9 @@ jobs:
 
     # Steps 
     steps:
-      # - uses: actions/checkout@v2
-      # - name: GITHUB_WORKSPACE
-      #   run: echo $GITHUB_WORKSPACE
+      - uses: actions/checkout@v2
+      - name: GITHUB_WORKSPACE
+        run: echo $GITHUB_WORKSPACE
       - name: Extract branch name
         shell: bash
         env:
