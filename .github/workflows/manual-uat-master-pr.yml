@@ -28,5 +28,5 @@ jobs:
       - name: GITHUB_WORKSPACE
         run: echo $GITHUB_WORKSPACE
       - name: Extract branch name
-        run: ./scripts/generate-pr.sh --slack $SECRET --title "[release admin] generated PR needing APPROVAL ONLY to prepare for production deployment" --body "This is a generated PR needing APPROVAL ONLY to prepare for production deployment - deploy/test -> deploy/Prod" --head uat --base master --auto
+        run: ./scripts/generate-pr.sh --slack "${SECRET}" --title "[release admin] generated PR needing APPROVAL ONLY to prepare for production deployment" --body "This is a generated PR needing APPROVAL ONLY to prepare for production deployment - deploy/test -> deploy/Prod" --head uat --base master --auto
         shell: bash
