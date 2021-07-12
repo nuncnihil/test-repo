@@ -8,7 +8,6 @@ help ()
   Will submit a PR for all Globalization Partners Nextgen services and UI's.  Good for use when needing to prep merges to various environments.
   Make sure you have the Github CLI installed: https://cli.github.com/
   Flags below follow the same flags as the Github CLI but will
-  -s, --slack   slack endpoint
   -a,--auto     Aotogenerated PR message
   -d,--dry-run  Dry run the command
   -t,--title    The title of the PR
@@ -79,8 +78,6 @@ if [[ $auto == "true" ]]; then
   allPR=()
 
   #append "number two" to array    
-  echo "slack ${slack}"
-  echo "SECRET ${SECRET}" 
   echo "Listing Pull Requests for all repos from ${head} to ${base}"
   for repo in ${repos[@]}; do
 
