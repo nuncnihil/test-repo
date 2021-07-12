@@ -8,6 +8,7 @@ help ()
   Will submit a PR for all Globalization Partners Nextgen services and UI's.  Good for use when needing to prep merges to various environments.
   Make sure you have the Github CLI installed: https://cli.github.com/
   Flags below follow the same flags as the Github CLI but will
+  -s, --slack   slack endpoint
   -a,--auto     Aotogenerated PR message
   -d,--dry-run  Dry run the command
   -t,--title    The title of the PR
@@ -74,44 +75,41 @@ for repo in ${repos[@]}; do
   fi
 done
 
-allRuntimes=()
+if [[ $auto == "true" ]]; then 
+  allPR=()
 
-#append "number two" to array    
+  #append "number two" to array    
+  echo "slack ${slack}"
+  echo "Listing Pull Requests for all repos from ${head} to ${base}"
+  for repo in ${repos[@]}; do
 
-echo "Listing Pull Requests for all repos from ${head} to ${base}"
-for repo in ${repos[@]}; do
-
-  list="gh api -X GET search/issues -F per_page=100 --paginate -f q='repo:${repo_prefix}/${repo} is:open' --jq '.items[] | select(.labels[].name | endswith(\"deployTest\")) | [.html_url] | @tsv'"
-  echo $repo
-  if [[ $auto == "true" ]]; then 
+    list="gh api -X GET search/issues -F per_page=100 --paginate -f q='repo:${repo_prefix}/${repo} is:open' --jq '.items[] | select(.labels[].name | endswith(\"deployTest\")) | [.html_url] | @tsv'"
+    echo $repo
     pr_list=$(eval "$list")
     message="<$( echo $pr_list)>"
     echo "result message ${message}" 
-    allRuntimes+=(  "$message" )
-    echo "After allRuntimes: ${allRuntimes[@]}"   
-    liam=${allRuntimes[@]}
+    allPR+=(  "$message" )
+    echo "After allRuntimes: ${allPR[@]}"   
+    liam=${allPR[@]}
     echo $liam
 
-  fi
-done
+  done
 
 
-# cmd=$(curl -X POST --data-urlencode "payload={
-#    "attachments":[
-#       {
-#          \"fallback\":\"@here\",
-#          \"pretext\":\"@here\",
-#          \"color\":\"#D00000\",
-#          \"fields\":[
-#             {
-#                \"title\":\"[Attention Code Owners] These are the generated PRs needing your APPROVAL ONLY to prepare for production deployment - deploy/test -> deploy/Prod\",
-#                \"value\":\"$liam\",
-#                \"short\":false
-#             }
-#          ]
-#       }
-#    ]
-# }" 
-
-# cmd=$(curl -X POST --data-urlencode "payload={ \"color\": \"warning\", \"text\": \"@here These are the generated PRs for APPROVAL ONLY to prepare for production deployment (deploy/test -> deploy/Prod)\n 
-# All owners please approve and merge the following:\n $liam.\", \"icon_emoji\": \":ghost:\"}" https://hooks.slack.com/services/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)
+  cmd=$(curl -X POST --data-urlencode "payload={
+    "attachments":[
+        {
+          \"fallback\":\"@here\",
+          \"pretext\":\"@here\",
+          \"color\":\"#D00000\",
+          \"fields\":[
+              {
+                \"title\":\"[Attention Code Owners] These are the generated PRs needing your APPROVAL ONLY to prepare for production deployment - deploy/test -> deploy/Prod\",
+                \"value\":\"$liam\",
+                \"short\":false
+              }
+          ]
+        }
+    ]
+  }" ${slack})
+fi
