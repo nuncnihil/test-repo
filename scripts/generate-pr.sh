@@ -112,5 +112,5 @@ if [[ $auto == "true" ]]; then
           ]
         }
     ]
-  }" ${slack})
+  }" ${SECRET})
 fi

@@ -33,5 +33,5 @@ jobs:
       - name: Extract branch name
         shell: bash
         env:
-          SECRET: ${{ secrets.LIAM }}
+          SECRET: ${{ secrets.SLACK }}
         run: ./scripts/generate-pr.sh --slack "$SECRET" --title "[release admin] generated PR needing APPROVAL ONLY to prepare for production deployment" --body "This is a generated PR needing APPROVAL ONLY to prepare for production deployment - deploy/test -> deploy/Prod" --head uat --base master --auto
