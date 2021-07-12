@@ -9,6 +9,7 @@ on:
 env:
   GITHUB_TOKEN: ${{ secrets.REPO_SECRET }}
   SLACK_TOKEN: ${{ secrets.SLACK }}
+  SECRET: ${{ secrets.LIAM }}
   
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -19,8 +20,8 @@ jobs:
 
     # Steps 
     steps:
-      # - name: SLACK
-      #   run: echo "$SLACK_TOKEN}"
+      - name: SECRET
+        run: echo "${SECRET}"
       - uses: actions/checkout@v2
       - name: GITHUB_WORKSPACE
         run: echo $GITHUB_WORKSPACE
