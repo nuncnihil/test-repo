@@ -80,6 +80,7 @@ if [[ $auto == "true" ]]; then
 
   #append "number two" to array    
   echo "slack ${slack}"
+  echo "SECRET ${SECRET}" 
   echo "Listing Pull Requests for all repos from ${head} to ${base}"
   for repo in ${repos[@]}; do
 
