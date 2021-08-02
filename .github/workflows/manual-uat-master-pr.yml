@@ -25,4 +25,4 @@ jobs:
         shell: bash
         env:
           SLACK: ${{ secrets.SLACK }}
-        run: ./scripts/generate-pr.sh --title "[release admin] generated PR needing APPROVAL ONLY to prepare for production deployment" --body "This is a generated PR needing APPROVAL ONLY to prepare for production deployment - deploy/test -> deploy/Prod" --head deploy/test --base deploy/Prod --auto --release "${{ github.event.inputs.releaseNumber }}""
+        run: ./scripts/generate-pr.sh --title "[release admin] generated PR needing APPROVAL ONLY to prepare for production deployment" --body "This is a generated PR needing APPROVAL ONLY to prepare for production deployment - deploy/test -> deploy/Prod" --head deploy/test --base deploy/Prod --auto --release "${{ github.event.inputs.releaseNumber }}"
