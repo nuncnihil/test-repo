@@ -117,6 +117,6 @@ if [[ $auto == "true" ]]; then
           ]
         }
     ]
-  }" https://hooks.slack.com/services/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)
+  }" )
 fi
 
