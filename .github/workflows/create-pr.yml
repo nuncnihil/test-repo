@@ -1,0 +1,109 @@
+name: Sync masterIII
+on:
+  push:
+    branches:
+      - uat
+env:
+  GITHUB_TOKEN: ${{secrets.REPO_SECRET}}
+jobs:
+  sync-main:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: tj-actions/branch-names@v4.5
+      - uses: rlespinasse/github-slug-action@v3.x
+      - name: Test action runs
+        id: action-test
+        run: echo "Action create_pr is started"
+      - name: Is PR required?
+        id: pr_required
+        run: echo "::set-output name=pr_required::$(git diff origin/master --quiet || echo 1)"
+      - name: Is PR required OUTPUT
+        run: echo  ${{ steps.pr_required.outputs.pr_required }}
+      - name: Extract branch name
+        if: ${{ steps.pr_required.outputs.pr_required == 1}}
+        shell: bash
+        run: echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
+        id: extract_branch
+      - name: Extract branch name OUTPUT
+        run: echo ${{ steps.extract_branch.outputs.branch }}
+
+      - name: View PR
+        id: cprl
+        run: echo "::set-output name=pr_url::$(gh pr view)"     
+        
+      - name: Create Pull Request
+        if: ${{ steps.pr_required.outputs.pr_required == 1}}
+        id: cpr
+        run: echo "::set-output name=pr_url::$(gh pr create --title 'Sync main with QA/UAT fixes' --body 'Sync fixes' --base master --head ${{ steps.extract_branch.outputs.branch }} )"     
+      - name: Print slug/short variables
+        run: |
+          echo "Slug variables"
+          echo " - ${{ env.GITHUB_REF_SLUG }}"    
+          echo " - ${{ env.GITHUB_HEAD_REF_SLUG }}"
+          echo " - ${{ env.GITHUB_BASE_REF_SLUG }}"
+          echo " - ${{ env.GITHUB_REPOSITORY_SLUG }}"
+          # output e.g. : master feat-new-feature v1.0.0 product-1.0.0-rc.2 new-awesome-product
+          echo "Slug URL variables"
+          echo " - ${{ env.GITHUB_REF_SLUG_URL }}"
+          echo " - ${{ env.GITHUB_HEAD_REF_SLUG_URL }}"
+          echo " - ${{ env.GITHUB_BASE_REF_SLUG_URL }}"
+          echo " - ${{ env.GITHUB_REPOSITORY_SLUG_URL }}"
+      - name: Get branch name (merge)
+        if: github.event_name != 'pull_request'
+        shell: bash
+        run: echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/} | tr / -)" >> $GITHUB_ENV
+
+      - name: Get branch name (pull request)
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: echo "BRANCH_NAME=$(echo ${GITHUB_HEAD_REF} | tr / -)" >> $GITHUB_ENV
+
+      - name: Debug
+        run: echo ${{ env.BRANCH_NAME }}
+
+      - name: Liam
+        run: echo ${{github.ref}} 
+        
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: Dump job context
+        env:
+          JOB_CONTEXT: ${{ toJSON(job) }}
+        run: echo "$JOB_CONTEXT"
+      - name: Dump steps context
+        env:
+          STEPS_CONTEXT: ${{ toJSON(steps) }}
+        run: echo "$STEPS_CONTEXT"
+      - name: Dump runner context
+        env:
+          RUNNER_CONTEXT: ${{ toJSON(runner) }}
+        run: echo "$RUNNER_CONTEXT"
+      - name: Dump strategy context
+        env:
+          STRATEGY_CONTEXT: ${{ toJSON(strategy) }}
+        run: echo "$STRATEGY_CONTEXT"
+      - name: Dump matrix context
+        env:
+          MATRIX_CONTEXT: ${{ toJSON(matrix) }}
+        run: echo "$MATRIX_CONTEXT"
+      
+      
+      # - name: Get Branch
+      #   id: get_branch
+      #   run: |
+      #     raw=$(git branch -r --contains ${{ github.ref }})
+      #     branch=${raw##*/}
+      #     echo "BRANCH=$branch"
+      # - run: echo ${{ env.BRANCH }}
+      # - name: Current branch name1
+      #   if: github.event_name == 'push'
+      #   run: echo ${{ github.ref }}
+      # - name: Current branch name2
+      #   if: github.event_name == 'push'
+      #   run: |
+      #     echo "${{ steps.branch-name.outputs.current_branch }}"
