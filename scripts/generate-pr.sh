@@ -60,20 +60,20 @@ fi
 
 
 
-# echo "Submitting Pull Requests from ${head} to ${base} for repos ..."
-# for repo in ${repos[@]}; do
-#   echo -e "${repo}"
-#   gh api repos/${repo_prefix}/${repo}/labels -f name="sync-pr ${release}" -f color='FBCA04'
-#   command="gh pr create --title \"${title}\" --body \"${body}\" --head ${head} --base ${base} --repo ${repo_prefix}/${repo} --label \"sync-pr ${release}\""
-#   if [[ $dry_run == "true" ]]; then
-#     echo -e "\tCommand to be run: "
-#     echo -e "\t\t ${command}"
-#   else
-#     echo -e "\tRunning: "
-#     echo -e "\t\t ${command}"
-#     eval $command
-#     process_id=$!
-#     echo "PID: $process_id"
+echo "Submitting Pull Requests from ${head} to ${base} for repos ..."
+for repo in ${repos[@]}; do
+  echo -e "${repo}"
+  gh api repos/${repo_prefix}/${repo}/labels -f name="sync-pr ${release}" -f color='FBCA04'
+  command="gh pr create --title \"${title}\" --body \"${body}\" --head ${head} --base ${base} --repo ${repo_prefix}/${repo} --label \"sync-pr ${release}\""
+  if [[ $dry_run == "true" ]]; then
+    echo -e "\tCommand to be run: "
+    echo -e "\t\t ${command}"
+  else
+    echo -e "\tRunning: "
+    echo -e "\t\t ${command}"
+    eval $command
+    process_id=$!
+    echo "PID: $process_id"
 
 #   fi
 # done
