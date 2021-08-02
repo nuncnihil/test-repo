@@ -117,6 +117,6 @@ if [[ $auto == "true" ]]; then
           ]
         }
     ]
-  }" )
+  }" ${SECRET})
 fi
 
