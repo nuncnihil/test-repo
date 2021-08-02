@@ -29,6 +29,7 @@ repos=(
   # you can add more repos here!
   'test-repo'
   'AdvancedReactRedux'
+  'bathtime'
 )
 
 while [ $# -gt 0 ] ; do
@@ -41,6 +42,7 @@ while [ $# -gt 0 ] ; do
     -H | --head) head="$2" ;;
     -d | --dry-run) dry_run="true" ;;
     -a | --auto) auto="true" ;;
+    -n | --release) release="$2" ;;
   esac
   shift
 done
@@ -58,39 +60,45 @@ fi
 
 
 
-echo "Submitting Pull Requests from ${head} to ${base} for repos ..."
-for repo in ${repos[@]}; do
-  echo -e "${repo}"
-  command="gh pr create --title \"${title}\" --body \"${body}\" --head ${head} --base ${base} --repo ${repo_prefix}/${repo} --label \"main->deployTest\" --reviewer ${reviewer}"
-  list="gh api -X GET search/issues -F per_page=100 --paginate -f q='repo:${repo_prefix}/${repo} is:open' --jq 'select(.label=="x") | [.html_url] | @tsv'"
-  if [[ $dry_run == "true" ]]; then
-    echo -e "\tCommand to be run: "
-    echo -e "\t\t ${command}"
-  else
-    echo -e "\tRunning: "
-    echo -e "\t\t ${command}"
-    eval $command
+# echo "Submitting Pull Requests from ${head} to ${base} for repos ..."
+# for repo in ${repos[@]}; do
+#   echo -e "${repo}"
+#   gh api repos/${repo_prefix}/${repo}/labels -f name="sync-pr ${release}" -f color='FBCA04'
+#   command="gh pr create --title \"${title}\" --body \"${body}\" --head ${head} --base ${base} --repo ${repo_prefix}/${repo} --label \"sync-pr ${release}\""
+#   if [[ $dry_run == "true" ]]; then
+#     echo -e "\tCommand to be run: "
+#     echo -e "\t\t ${command}"
+#   else
+#     echo -e "\tRunning: "
+#     echo -e "\t\t ${command}"
+#     eval $command
+#     process_id=$!
+#     echo "PID: $process_id"
 
-  fi
-done
+#   fi
+# done
 
 if [[ $auto == "true" ]]; then 
   allPR=()
-
-  #append "number two" to array    
+ echo "Generating PRs for release: ${release}"
   echo "Listing Pull Requests for all repos from ${head} to ${base}"
   for repo in ${repos[@]}; do
-
-    list="gh api -X GET search/issues -F per_page=100 --paginate -f q='repo:${repo_prefix}/${repo} is:open' --jq '.items[] | select(.labels[].name | endswith(\"deployTest\")) | [.html_url] | @tsv'"
-    echo $repo
+    list="gh api -X GET search/issues -F per_page=100 --paginate -f q='repo:${repo_prefix}/${repo} is:open' --jq '.items[] | select(.labels[].name | endswith(\"sync-pr ${release}\")) | [.html_url] | @tsv'"
     pr_list=$(eval "$list")
-    message="<$( echo $pr_list)>"
-    echo "result message ${message}" 
-    allPR+=(  "$message" )
-    echo "After allRuntimes: ${allPR[@]}"   
-    liam=${allPR[@]}
-    echo $liam
+    prNumber="$( echo "${pr_list}" |sed 's/.*\///')"
+    reviewer="gh api /repos/${repo_prefix}/${repo}/pulls/${prNumber}/requested_reviewers --jq '.users[] | [.login] | @tsv'"
+    pr_reviewer=$(eval "$reviewer")
 
+    if [ -z "$pr_list" ]; then
+      echo "Empty"
+      message="${repo_prefix}/${repo} has no changes to merge\r"
+      allPR+=(  "$message" ) 
+      final_list=${allPR[@]}
+    else
+      message="<$( echo $pr_list)> codeOwners: $( echo $pr_reviewer) \r"
+      allPR+=(  "$message" ) 
+      final_list=${allPR[@]}
+    fi
   done
 
 
@@ -102,12 +110,13 @@ if [[ $auto == "true" ]]; then
           \"color\":\"#D00000\",
           \"fields\":[
               {
-                \"title\":\"[Attention Code Owners] These are the generated PRs needing your APPROVAL ONLY to prepare for production deployment - deploy/test -> deploy/Prod\",
-                \"value\":\"$liam\",
+                \"title\":\"$body\",
+                \"value\":\"$final_list\",
                 \"short\":false
               }
           ]
         }
     ]
-  }" ${SECRET})
+  }" https://hooks.slack.com/services/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)
 fi
+
