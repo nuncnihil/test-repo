@@ -75,8 +75,8 @@ for repo in ${repos[@]}; do
     process_id=$!
     echo "PID: $process_id"
 
-#   fi
-# done
+  fi
+done
 
 if [[ $auto == "true" ]]; then 
   allPR=()
